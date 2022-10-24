@@ -1,0 +1,17 @@
+version: '3'
+services:
+  # MySQL
+  db:
+    image: mysql:8.0.25
+    ports:
+      - "3306:3306"
+    container_name: aws_camp_db
+    volumes:
+      - ./mysql/data/:/var/lib/mysql
+      - ./mysql/mysql.cnf:/etc/mysql/conf.d/my.cnf
+      - ./mysql/sql/:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_DATABASE: step2
+      MYSQL_ROOT_USER: admin
+      MYSQL_ROOT_PASSWORD: admin123
+      TZ: Asia/Tokyo

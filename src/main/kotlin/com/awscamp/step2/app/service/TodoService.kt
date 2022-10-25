@@ -12,4 +12,16 @@ class TodoService(
     fun findTodoAll(): List<TodoDto> {
         return todoRepository.findTodoAll().map { TodoDto(it) }
     }
+
+    fun createTodo(
+        text: String
+    ) {
+        todoRepository.createTodo(text = text)
+    }
+
+    fun deleteTodo(
+        id: Long
+    ) {
+        todoRepository.deleteTodo(id = id)
+    }
 }

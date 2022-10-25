@@ -1,6 +1,8 @@
 package com.awscamp.step2.app.repository.mapper
 
 import com.awscamp.step2.app.repository.entity.Todo
+import org.apache.ibatis.annotations.Delete
+import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Select
 
@@ -17,4 +19,24 @@ interface TodoMapper {
         """
     )
     fun findTodoAll(): List<Todo>
+
+    @Insert(
+        """
+            INSERT INTO todo (text)
+            VALUES (#{text})
+        """
+    )
+    fun createTodo(
+        text: String
+    ): Int
+
+    @Delete(
+        """
+            DELETE FROM todo
+            WHERE id = #{id}
+        """
+    )
+    fun deleteTodo(
+        id: Long
+    ): Int
 }

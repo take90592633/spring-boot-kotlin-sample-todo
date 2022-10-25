@@ -10,16 +10,25 @@ class TodoController(
     private val todoService: TodoService
 ) {
     @GetMapping("/todo")
-    fun index(
+    fun todo(
         model: Model
     ): String {
-        // TODO todoをDBから取得する
-//        val todoDtoList = listOf(
-//            TodoDto(id = 1, text = "テスト1"),
-//            TodoDto(id = 2, text = "テスト2"),
-//        )
         val todoDtoList = todoService.findTodoAll()
         model.addAttribute("todoDtoList", todoDtoList)
         return "todo"
+    }
+
+    // TODO 登録処理(登録 → 表示)
+    fun createTodo(
+        text: String
+    ) {
+        todoService.createTodo(text = text)
+    }
+
+    // TODO 削除処理(削除 → 表示)
+    fun deleteTodo(
+        id: Long
+    ) {
+        todoService.deleteTodo(id = id)
     }
 }

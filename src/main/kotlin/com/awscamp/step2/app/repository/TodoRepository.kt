@@ -12,4 +12,16 @@ class TodoRepository(
     fun findTodoAll(): List<Todo> {
         return todoMapper.findTodoAll()
     }
+
+    fun createTodo(
+        text: String
+    ): Int {
+        return todoMapper.createTodo(text = text)
+    }
+
+    fun deleteTodo(
+        id: Long
+    ): Int {
+        return todoMapper.deleteTodo(id = id)
+    }
 }

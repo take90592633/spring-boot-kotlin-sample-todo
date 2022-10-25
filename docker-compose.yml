@@ -2,16 +2,17 @@ version: '3'
 services:
   # MySQL
   db:
-    image: mysql:8.0.25
+    image: mysql:8.0.30
     ports:
-      - "3306:3306"
-    container_name: aws_camp_db
+      - 3306:3306
+    container_name: aws_camp_mysql
     volumes:
-      - ./mysql/data/:/var/lib/mysql
-      - ./mysql/mysql.cnf:/etc/mysql/conf.d/my.cnf
-      - ./mysql/sql/:/docker-entrypoint-initdb.d
+      - ./docker/mysql/data/:/var/lib/mysql
+      - ./docker/mysql/mysql.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/mysql/sql/:/docker-entrypoint-initdb.d
     environment:
       MYSQL_DATABASE: step2
-      MYSQL_ROOT_USER: admin
-      MYSQL_ROOT_PASSWORD: admin123
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin123
       TZ: Asia/Tokyo

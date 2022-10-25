@@ -2,9 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charaset="UTF-8">
-    <title>Todo</title>
+    <title>Todo List</title>
 </head>
 <body>
-<p th:text="${message}"></p>
+<div th:each="todoDto : ${todoDtoList}">
+    <p>[[${todoDto.id}]] : [[${todoDto.text}]]</p>
+</div>
 </body>
 </html>

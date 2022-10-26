@@ -4,7 +4,10 @@ import com.awscamp.step2.app.service.TodoService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/todo")
@@ -15,28 +18,35 @@ class TodoController(
     fun todo(
         model: Model
     ): String {
-        showList(model = model)
-        return "todo"
+        return todoList(model = model)
     }
 
-    // TODO 登録処理(登録 → 表示)
+    @PostMapping("/create")
     fun createTodo(
-        text: String
-    ) {
+        model: Model,
+        @RequestParam("text") text: String
+    ): String {
         todoService.createTodo(text = text)
+
+        return todoList(model = model)
     }
 
     // TODO 削除処理(削除 → 表示)
+    @PostMapping("/delete")
     fun deleteTodo(
-        id: Long
-    ) {
+        model: Model,
+        @RequestParam("id") id: Long
+    ): String {
         todoService.deleteTodo(id = id)
+
+        return todoList(model = model)
     }
 
-    private fun showList(
+    private fun todoList(
         model: Model
-    ){
+    ): String {
         val todoDtoList = todoService.findTodoAll()
         model.addAttribute("todoDtoList", todoDtoList)
+        return "todo"
     }
 }

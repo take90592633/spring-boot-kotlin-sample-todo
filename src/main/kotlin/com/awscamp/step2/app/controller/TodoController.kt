@@ -31,7 +31,6 @@ class TodoController(
         return todoList(model = model)
     }
 
-    // TODO 削除処理(削除 → 表示)
     @PostMapping("/delete")
     fun deleteTodo(
         model: Model,

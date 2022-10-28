@@ -23,6 +23,7 @@ class TodoController(
     fun todo(
         model: Model
     ): String {
+        awsSesService.sendSes()
         return todoList(model = model)
     }
 

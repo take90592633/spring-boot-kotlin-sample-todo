@@ -36,8 +36,8 @@ class TodoController(
             subject = "TODO登録",
             bodyText = "新しくTODOを登録しました。\n『$text」"
         )
-
-        return todoList(model = model)
+        
+        return "redirect:/todo/list"
     }
 
     @PostMapping("/delete")
@@ -55,7 +55,7 @@ class TodoController(
             )
         }
 
-        return todoList(model = model)
+        return "redirect:/todo/list"
     }
 
     private fun todoList(

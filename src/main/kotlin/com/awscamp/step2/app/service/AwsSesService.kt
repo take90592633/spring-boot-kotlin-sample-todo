@@ -12,7 +12,7 @@ import software.amazon.awssdk.services.ses.model.SesException
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.nio.ByteBuffer
-import java.util.*
+import java.util.Properties
 import javax.mail.Message
 import javax.mail.MessagingException
 import javax.mail.Session
@@ -28,21 +28,25 @@ class AwsSesService {
     @Value("\${aws.ses.mail}")
     private val recipient: String = ""
 
-    fun sendSes() {
+    fun sendSes(
+        subject: String, // タイトル
+        bodyText: String // 本文
+    ) {
         val client = SesClient.builder()
             .region(Region.AP_NORTHEAST_1)
             .credentialsProvider(ProfileCredentialsProvider.create())
             .build()
 
-        val subject = "タイトルです"
-
-        // The email body for non-HTML email clients.
-        val bodyText = "本文です"
-
         try {
-            send(client, sender, recipient, subject, bodyText)
-            client.close()
-            println("Done")
+            client.use {
+                send(
+                    client = it,
+                    sender = sender,
+                    recipient = recipient,
+                    subject = subject,
+                    bodyText = bodyText
+                )
+            }
         } catch (e: IOException) {
             e.stackTrace
         } catch (e: MessagingException) {
@@ -52,10 +56,10 @@ class AwsSesService {
 
     private fun send(
         client: SesClient,
-        sender: String,
-        recipient: String,
-        subject: String,
-        bodyText: String
+        sender: String, // 送信者
+        recipient: String, // 受信者
+        subject: String, // タイトル
+        bodyText: String // 本文
     ) {
         val session = Session.getDefaultInstance(Properties())
         val message = MimeMessage(session)
@@ -68,6 +72,7 @@ class AwsSesService {
             println("Attempting to send an email through Amazon SES " + "using the AWS SDK for Java...")
             val outputStream = ByteArrayOutputStream()
             message.writeTo(outputStream)
+
             val buf = ByteBuffer.wrap(outputStream.toByteArray())
             val arr = ByteArray(buf.remaining())
             buf.get(arr)

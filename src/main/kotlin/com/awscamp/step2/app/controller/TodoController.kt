@@ -23,7 +23,6 @@ class TodoController(
     fun todo(
         model: Model
     ): String {
-        awsSesService.sendSes()
         return todoList(model = model)
     }
 
@@ -33,6 +32,10 @@ class TodoController(
         @RequestParam("text") text: String
     ): String {
         todoService.createTodo(text = text)
+        awsSesService.sendSes(
+            subject = "TODO登録",
+            bodyText = "新しくTODOを登録しました。\n『$text」"
+        )
 
         return todoList(model = model)
     }
@@ -42,7 +45,15 @@ class TodoController(
         model: Model,
         @RequestParam("id") id: Long
     ): String {
-        todoService.deleteTodo(id = id)
+        val todoDto = todoService.findTodoById(id = id)
+
+        if (todoDto != null) {
+            todoService.deleteTodo(id = id)
+            awsSesService.sendSes(
+                subject = "TODO削除",
+                bodyText = "TODOを削除しました。\n「${todoDto.text}」"
+            )
+        }
 
         return todoList(model = model)
     }

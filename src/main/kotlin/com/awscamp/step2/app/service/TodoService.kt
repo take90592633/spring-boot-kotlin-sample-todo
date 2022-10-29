@@ -13,6 +13,12 @@ class TodoService(
         return todoRepository.findTodoAll().map { TodoDto(it) }
     }
 
+    fun findTodoById(
+        id: Long
+    ): TodoDto? {
+        return todoRepository.findTodoById(id = id)?.let { TodoDto(todo = it) }
+    }
+
     fun createTodo(
         text: String
     ) {

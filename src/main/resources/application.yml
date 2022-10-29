@@ -6,3 +6,9 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
   jackson:
     property-naming-strategy: SNAKE_CASE
+
+aws:
+  s3:
+    bucket: xxx
+  ses:
+    mail: xxx

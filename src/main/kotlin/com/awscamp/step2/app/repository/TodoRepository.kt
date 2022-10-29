@@ -13,6 +13,12 @@ class TodoRepository(
         return todoMapper.findTodoAll()
     }
 
+    fun findTodoById(
+        id: Long
+    ): Todo? {
+        return todoMapper.findTodoById(id = id)
+    }
+
     fun createTodo(
         text: String
     ): Int {

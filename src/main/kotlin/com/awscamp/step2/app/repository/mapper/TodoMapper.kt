@@ -20,6 +20,21 @@ interface TodoMapper {
     )
     fun findTodoAll(): List<Todo>
 
+    @Select(
+        """
+            SELECT
+                id,
+                text
+            FROM
+                todo
+            WHERE
+                id = #{id}
+        """
+    )
+    fun findTodoById(
+        id: Long
+    ): Todo?
+
     @Insert(
         """
             INSERT INTO todo (text)

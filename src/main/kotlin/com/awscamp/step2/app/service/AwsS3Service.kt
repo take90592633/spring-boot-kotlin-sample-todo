@@ -18,7 +18,7 @@ class AwsS3Service {
     fun uploadS3(
         key: String,
         localPath: Path
-    ){
+    ) {
         val client = S3Client.builder()
             .region(Region.AP_NORTHEAST_1)
             .credentialsProvider(ProfileCredentialsProvider.create())
@@ -29,7 +29,7 @@ class AwsS3Service {
             .key(key)
             .build()
 
-        client.use{
+        client.use {
             it.putObject(request, RequestBody.fromFile(localPath))
         }
     }

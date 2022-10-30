@@ -1,5 +1,6 @@
 package com.awscamp.step2.app.controller
 
+import com.awscamp.step2.app.service.AwsS3Service
 import com.awscamp.step2.app.service.AwsSesService
 import com.awscamp.step2.app.service.TodoService
 import org.springframework.beans.factory.annotation.Value
@@ -9,12 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import java.nio.file.Paths
 
 @Controller
 @RequestMapping("/todo")
 class TodoController(
     private val todoService: TodoService,
-    private val awsSesService: AwsSesService
+    private val awsSesService: AwsSesService,
+    private val awsS3Service: AwsS3Service
 ) {
     @Value("\${aws.s3.bucket}")
     private val awsS3Bucket: String = ""
@@ -23,6 +26,13 @@ class TodoController(
     fun todo(
         model: Model
     ): String {
+
+        val filePath = Paths.get("/Users/takeshi/Downloads/onepiece14_enel.png")
+        awsS3Service.uploadS3(
+            key = filePath.fileName.toString(),
+            localPath = filePath
+        )
+
         return todoList(model = model)
     }
 
@@ -36,7 +46,7 @@ class TodoController(
             subject = "TODO登録",
             bodyText = "新しくTODOを登録しました。\n『$text」"
         )
-        
+
         return "redirect:/todo/list"
     }
 

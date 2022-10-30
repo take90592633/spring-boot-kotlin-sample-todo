@@ -35,11 +35,19 @@ class AwsS3Controller(
 
         // TODO filePathの存在チェック
 
-        awsS3Service.uploadS3(
+        awsS3Service.upload(
             key = filePath.fileName.toString(),
             localPath = filePath
         )
 
+        return "redirect:/s3/list"
+    }
+
+    @PostMapping("/delete")
+    fun delete(
+        key: String
+    ):String{
+        awsS3Service.delete(key = key)
         return "redirect:/s3/list"
     }
 

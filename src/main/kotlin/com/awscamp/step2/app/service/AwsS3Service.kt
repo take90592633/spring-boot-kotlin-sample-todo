@@ -6,6 +6,7 @@ import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider
 import software.amazon.awssdk.core.sync.RequestBody
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.s3.S3Client
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest
 import software.amazon.awssdk.services.s3.model.ListObjectsRequest
 import software.amazon.awssdk.services.s3.model.PutObjectRequest
 import java.nio.file.Path
@@ -16,7 +17,7 @@ class AwsS3Service {
     @Value("\${aws.s3.bucket}")
     private val bucket: String = ""
 
-    fun uploadS3(
+    fun upload(
         key: String,
         localPath: Path
     ) {
@@ -32,6 +33,24 @@ class AwsS3Service {
 
         client.use {
             it.putObject(request, RequestBody.fromFile(localPath))
+        }
+    }
+
+    fun delete(
+        key: String
+    ){
+        val client = S3Client.builder()
+            .region(Region.AP_NORTHEAST_1)
+            .credentialsProvider(ProfileCredentialsProvider.create())
+            .build()
+
+        val deleteObjectRequest = DeleteObjectRequest.builder()
+            .bucket(bucket)
+            .key(key)
+            .build()
+
+        client.use{
+            it.deleteObject(deleteObjectRequest)
         }
     }
 

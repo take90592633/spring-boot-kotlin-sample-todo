@@ -28,7 +28,7 @@ class TodoController(
     ): String {
 
         val filePath = Paths.get("/Users/takeshi/Downloads/onepiece14_enel.png")
-        awsS3Service.uploadS3(
+        awsS3Service.upload(
             key = filePath.fileName.toString(),
             localPath = filePath
         )

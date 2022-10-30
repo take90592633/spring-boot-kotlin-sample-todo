@@ -11,10 +11,10 @@
 </head>
 <body>
 <div class="container">
-    <form class="mt-2" th:action="@{/s3/upload}" method="POST">
+    <form class="mt-2" th:action="@{/s3/upload}" enctype="multipart/form-data" method="POST">
         <div class="row">
             <div class="col-auto">
-                <input type="file" name="filePathString" accept="image/*" enctype="multipart/form-data">
+                <input type="file" name="multipartFile" accept="image/*">
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary">アップロード</button>

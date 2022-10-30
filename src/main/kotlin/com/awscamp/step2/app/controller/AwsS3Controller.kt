@@ -7,7 +7,10 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import java.nio.file.Paths
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.multipart.MultipartFile
+import java.io.File
+import java.io.FileOutputStream
 
 @Controller
 @RequestMapping("/s3")
@@ -27,18 +30,22 @@ class AwsS3Controller(
 
     @PostMapping("/upload")
     fun upload(
-        filePathString: String
+        @RequestParam("multipartFile") multipartFile: MultipartFile
     ): String {
-        if (filePathString.isNullOrEmpty()) return "redirect:/s3/list"
+        if (multipartFile.isEmpty) return "redirect:/s3/list"
 
-        val filePath = Paths.get("$folderPath$filePathString")
+        val fileName = multipartFile.originalFilename ?: return "redirect:/s3/list"
 
-        // TODO filePathの存在チェック
+        val uploadFile = File(fileName)
+        val uploadFileStream = FileOutputStream(uploadFile)
+        uploadFileStream.use {
+            it.write(multipartFile.bytes)
 
-        awsS3Service.upload(
-            key = filePath.fileName.toString(),
-            localPath = filePath
-        )
+            awsS3Service.upload(
+                key = fileName,
+                file = uploadFile
+            )
+        }
 
         return "redirect:/s3/list"
     }

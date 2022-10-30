@@ -46,7 +46,7 @@ class AwsS3Controller(
     @PostMapping("/delete")
     fun delete(
         key: String
-    ):String{
+    ): String {
         awsS3Service.delete(key = key)
         return "redirect:/s3/list"
     }

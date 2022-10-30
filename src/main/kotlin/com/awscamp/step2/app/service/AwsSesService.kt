@@ -2,7 +2,6 @@ package com.awscamp.step2.app.service
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider
 import software.amazon.awssdk.core.SdkBytes
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.ses.SesClient
@@ -34,7 +33,6 @@ class AwsSesService {
     ) {
         val client = SesClient.builder()
             .region(Region.AP_NORTHEAST_1)
-            .credentialsProvider(ProfileCredentialsProvider.create())
             .build()
 
         try {

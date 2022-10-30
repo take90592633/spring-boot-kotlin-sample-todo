@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:mysql://yamashita-step2-second-half-mysql.cxp1rwmc91cd.ap-northeast-1.rds.amazonaws.com/step2
+    username: admin
+    password: admin123
+    driverClassName: com.mysql.jdbc.Driver
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+aws:
+  s3:
+    bucket: xxx
+    folder-path: xxx
+  ses:
+    mail: xxx

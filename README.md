@@ -32,3 +32,20 @@ src/main.resources/mysql/init.sql
   - AWS_SES_MAIL=SESに登録したメールアドレス
   - AWS_ACCESS_KEY_ID=AWSアクセスキーID
   - AWS_SECRET_ACCESS_KEY=AWSシークレットアクセスキー
+
+# EC2起動
+- jarファイル作成(build/libs配下に作成)
+```
+gradle build
+```
+- jarファイルをEC2にコピー
+```
+scp -i  your-ec2-key-pair.pem app-0.0.1-SNAPSHOT.jar ec2-user@XXX.XXX.XXX.XXX:~/
+```
+- 環境変数に以下を設定する。
+  - AWS_S3_BUCKET=S3のバケット名
+  - AWS_S3_FOLDER_PATH=アップロード元のフォルダパス
+  - AWS_SES_MAIL=SESに登録したメールアドレス
+  - AWS_ACCESS_KEY_ID=AWSアクセスキーID
+  - AWS_SECRET_ACCESS_KEY=AWSシークレットアクセスキー
+  - SPRING_PROFILES_ACTIVE=production

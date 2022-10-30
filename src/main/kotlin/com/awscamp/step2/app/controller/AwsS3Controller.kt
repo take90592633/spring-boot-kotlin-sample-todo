@@ -32,6 +32,9 @@ class AwsS3Controller(
         if (filePathString.isNullOrEmpty()) return "redirect:/s3/list"
 
         val filePath = Paths.get("$folderPath$filePathString")
+
+        // TODO filePathの存在チェック
+
         awsS3Service.uploadS3(
             key = filePath.fileName.toString(),
             localPath = filePath

@@ -10,5 +10,6 @@ spring:
 aws:
   s3:
     bucket: xxx
+    folder-path: xxx
   ses:
     mail: xxx

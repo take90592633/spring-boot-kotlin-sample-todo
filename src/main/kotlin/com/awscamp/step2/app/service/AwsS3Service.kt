@@ -8,7 +8,7 @@ import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest
 import software.amazon.awssdk.services.s3.model.ListObjectsRequest
 import software.amazon.awssdk.services.s3.model.PutObjectRequest
-import java.nio.file.Path
+import java.io.File
 
 @Service
 class AwsS3Service {
@@ -18,7 +18,7 @@ class AwsS3Service {
 
     fun upload(
         key: String,
-        localPath: Path
+        file: File
     ) {
         val client = S3Client.builder()
             .region(Region.AP_NORTHEAST_1)
@@ -30,7 +30,7 @@ class AwsS3Service {
             .build()
 
         client.use {
-            it.putObject(request, RequestBody.fromFile(localPath))
+            it.putObject(request, RequestBody.fromFile(file))
         }
     }
 

@@ -23,7 +23,27 @@
     </form>
 
     <hr>
-    
+
+    <table class="table table-striped" th:unless="${#lists.isEmpty(objectList)}">
+        <thead>
+        <tr>
+            <th>名前</th>
+            <th>削除</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="object : ${objectList}">
+            <td th:text="${object}"></td>
+            <td>
+                <form th:action="@{/s3/delete}" method="POST">
+                    <input type="hidden" name="key" th:value="${object}">
+                    <input type="submit" value="削除">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p th:if="${#lists.isEmpty(objectList)}">オブジェクトなし</p>
 </div>
 
 <!-- Option 1: Bootstrap Bundle with Popper -->

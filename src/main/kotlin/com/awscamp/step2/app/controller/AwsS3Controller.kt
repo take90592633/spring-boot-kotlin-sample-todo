@@ -22,7 +22,7 @@ class AwsS3Controller(
     fun s3(
         model: Model
     ): String {
-        return s3List(model = model)
+        return objectList(model = model)
     }
 
     @PostMapping("/upload")
@@ -43,9 +43,11 @@ class AwsS3Controller(
         return "redirect:/s3/list"
     }
 
-    private fun s3List(
+    private fun objectList(
         model: Model
     ): String {
+        val objectList = awsS3Service.objectList()
+        model.addAttribute("objectList", objectList)
         return "s3"
     }
 }
